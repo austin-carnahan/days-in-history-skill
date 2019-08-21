@@ -1,15 +1,23 @@
 from mycroft import MycroftSkill, intent_file_handler
+from adapt.intent import IntentBuilder
 
 
-class DaysInHistory(MycroftSkill):
+class TodayInHistory(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
 
-    @intent_file_handler('history.in.days.intent')
-    def handle_history_in_days(self, message):
-        self.speak_dialog('history.in.days')
+    def initialize(self):
+        today_in_history_intent = IntentBuilder("TodayInHistoryIntent").require("TodayInHistoryKeyword").build()
+        self.register_intent(today_in_history_intent, self.handle_today_in_history_intent)
+        
+    #~ @intent_file_handler('today.in.history.intent')
+    def handle_today_in_history_intent(self, message):
+        self.speak_dialog('searching')
+
+    def stop(self):
+        pass
 
 
 def create_skill():
-    return DaysInHistory()
+    return TodayInHistory()
 
