@@ -46,7 +46,7 @@ class TodayInHistory(MycroftSkill):
             selected_event = events_list[random.randrange(events_list_length)]
 
             # a little string concatenation for clarity. right now our selection only has a year
-            selected_event = day_query + selected_event
+            selected_event = day_query + ", " + selected_event
             self.speak(selected_event)
     
 
