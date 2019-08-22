@@ -25,6 +25,7 @@ class TodayInHistory(MycroftSkill):
             self.speak_dialog("searching", {"day": day_query})
 
         except:
+            pass
 
     def stop(self):
         pass
