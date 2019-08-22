@@ -1,3 +1,7 @@
+import re
+import wikipedia as wiki
+from datetime import date
+
 from mycroft import MycroftSkill, intent_file_handler, intent_handler
 from adapt.intent import IntentBuilder
 
@@ -5,14 +9,22 @@ from adapt.intent import IntentBuilder
 class TodayInHistory(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
-
-    #~ def initialize(self):
-        #~ today_in_history_intent = IntentBuilder("TodayInHistoryIntent").require("TodayInHistoryKeyword").build()
-        #~ self.register_intent(today_in_history_intent, self.handle_today_in_history_intent)
-        
+  
     @intent_handler(IntentBuilder('TodayInHistoryIntent').require("TodayInHistoryKeyword"))
     def handle_today_in_history_intent(self, message):
-        self.speak_dialog('searching')
+        day_query = date.today().strftime("%B %d")
+
+        self._lookup(day_query)
+
+    def _lookup(self, day_query):
+        """ Searches wikipedia for an entry about a given day and replies to user
+            Arguments:
+                day_query: a string referencing a calendar day e.g. "March 15" or "May 6th"
+        """
+        try:
+            self.speak_dialog("searching", {"day": day_query})
+
+        except:
 
     def stop(self):
         pass
