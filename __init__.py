@@ -17,7 +17,7 @@ class TodayInHistory(MycroftSkill):
 
         self._search(day_query)
 
-    @intent_handler(IntentBuilder("TellMeMoreIntent").require("TellMeMoreKeyword"))
+    @intent_handler(IntentBuilder("TellMeMoreIntent").require("TellMeMoreKeyword").require("initial_response"))
     def handle_tell_me_more_intent(self, message):
         """ Handler for follow-up inquiries 'tell me more'
 
