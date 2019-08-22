@@ -74,12 +74,12 @@ class TodayInHistory(MycroftSkill):
             selected_event = day_query + ", " + selected_event
             self.speak(selected_event)
 
-            # remove spoken entries and save data for further inquiry
+            # remove spoken entries and save data for further inquiry. Flag initial response as complete to enable 'Tell Me More'
+            # this doesn't work with bool'True'.... wants a string 
             events_list.pop(selection_index)
             self.events_list = events_list
             self.day = day_query
             self.set_context("initial_response", "complete")
-
             
         except:
             pass
