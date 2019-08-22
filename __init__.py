@@ -21,6 +21,7 @@ class TodayInHistory(MycroftSkill):
     def handle_tell_me_more_intent(self, message):
         """ Handler for follow-up inquiries 'tell me more'
 
+            enabled after initial response is complete
         """
 
         if not self.events_list:
@@ -71,8 +72,7 @@ class TodayInHistory(MycroftSkill):
             selected_event = events_list[selection_index]
 
             # a little string concatenation for clarity. right now our selection only contains a year
-            selected_event = day_query + ", " + selected_event
-            self.speak(selected_event)
+            self.speak(day_query + ", " +selected_event)
 
             # remove spoken entries and save data for further inquiry. Flag initial response as complete to enable 'Tell Me More'
             # this doesn't work with bool'True'.... wants a string 
@@ -81,8 +81,14 @@ class TodayInHistory(MycroftSkill):
             self.day = day_query
             self.set_context("initial_response", "complete")
             
-        except:
-            pass
+        except wiki.exceptions.PageError:
+            self.speak_dialog("notfound")
+
+        except wiki.exceptions.WikipediaExeption:
+            self.speak("I'm sorry, something went wrong")
+
+        except Exception as e:
+            self.log.error("Error: {0}".format(e))
 
     def stop(self):
         pass
