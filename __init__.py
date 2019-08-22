@@ -40,7 +40,6 @@ class TodayInHistory(MycroftSkill):
             # remove spoken entries and save data for further inquiry
             events_list.pop(selection_index)
             self.events_list = events_list
-            self.day = day_query
 
 
     def _search(self, day_query):
