@@ -1,1 +1,1 @@
-(?P<Day>January|February|March|April|May|June|July|August|September|October|November|December)
+(?P<Day>(January|February|March|April|May|June|July|August|September|October|November|December)\s([1-3][0-9]|[1-9]))
