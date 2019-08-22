@@ -16,7 +16,7 @@ class TodayInHistory(MycroftSkill):
         day_query = message.data.get("Day")
 
         if day_query:
-            self._search(day_query)
+            self._search(day_query + "1")
         else:
             self._search(date.today().strftime("%B %d"))
 
