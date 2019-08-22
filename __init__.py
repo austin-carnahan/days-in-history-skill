@@ -17,6 +17,32 @@ class TodayInHistory(MycroftSkill):
 
         self._search(day_query)
 
+    @intent_handler(IntentBuilder("").require("TellMeMoreKeyword").require("initial_response"))
+    def handle_tell_me_more_intent(self, message):
+        """ Handler for follow-up inquiries 'tell me more'
+
+        """
+
+        if not self.events_list:
+            self.speak("That's all the information I can find.")
+        else:
+            events_list = self.events_list
+            day = self.day
+            
+            # choose a random entry from the list
+                selection_index = random.randrange(len(events_list))
+                selected_event = events_list[selection_index]
+
+            # a little string concatenation for clarity. right now our selection only contains a year
+                selected_event = day + ", " + selected_event
+                self.speak(selected_event)
+
+            # remove spoken entries and save data for further inquiry
+                events_list.pop(selection_index)
+                self.events_list = events_list
+                self.day = day_query
+
+
     def _search(self, day_query):
         """ Searches wikipedia for an entry about a given day and replies to user
             Arguments:
@@ -24,7 +50,7 @@ class TodayInHistory(MycroftSkill):
         """
         try:
 
-            # let the user now we're looking
+            # let the user know we're looking
             self.speak_dialog("searching", {"day": day_query})
 
             # get the wikipedia article for the chosen day
@@ -42,12 +68,20 @@ class TodayInHistory(MycroftSkill):
             events_list = re.split(r'\n', events)
 
             # choose a random entry from the list
-            events_list_length = len(events_list)
-            selected_event = events_list[random.randrange(events_list_length)]
+            selection_index = random.randrange(len(events_list))
+            selected_event = events_list[selection_index]
 
-            # a little string concatenation for clarity. right now our selection only has a year
+            # a little string concatenation for clarity. right now our selection only contains a year
             selected_event = day_query + ", " + selected_event
             self.speak(selected_event)
+
+            # remove spoken entries and save data for further inquiry
+            events_list.pop(selection_index)
+            self.events_list = events_list
+            self.day = day_query
+            self.set_context("initial_response", True)
+
+            
     
 
         except:
