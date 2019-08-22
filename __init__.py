@@ -13,6 +13,8 @@ class TodayInHistory(MycroftSkill):
   
     @intent_handler(IntentBuilder('TodayInHistoryIntent').require("TodayInHistoryKeyword").optionally("Day"))
     def handle_today_in_history_intent(self, message):
+
+        self.speak("AM I CRAZY???!?")
         day_query = message.data.get("Day")
 
         if day_query:
