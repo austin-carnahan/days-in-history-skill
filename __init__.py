@@ -57,7 +57,7 @@ class TodayInHistory(MycroftSkill):
 
             # get the wikipedia article for the chosen day
             # wiki.page will accept a range of day formats including "August 5", "August 5th", and "5th of August"
-            results = wiki.page(day_query)
+            results = wiki.page("May 12")
 
             # prune away irrelevant content so we are just looking at events
             events = re.search(r'(?<=Events ==\n).*?(?=\n\n\n==)', results.content, re.DOTALL).group()
