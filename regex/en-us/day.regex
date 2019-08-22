@@ -1,1 +1,1 @@
-(January|February|March|April|May|June|July|August|September|October|November|December) (?P<Day>.*)
+(?P<Day>January|February|March|April|May|June|July|August|September|October|November|December)
