@@ -13,14 +13,13 @@ class TodayInHistory(MycroftSkill):
   
     @intent_handler(IntentBuilder('TodayInHistoryIntent').require("TodayInHistoryKeyword").optionally("Day"))
     def handle_today_in_history_intent(self, message):
-
-        self.speak("AM I CRAZY???!?")
         day_query = message.data.get("Day")
 
         if day_query:
             self._search(day_query + "1")
         else:
-            self._search(date.today().strftime("%B %d"))
+            self._search("May 12")
+            #~ self._search(date.today().strftime("%B %d"))
 
         
 
@@ -59,7 +58,7 @@ class TodayInHistory(MycroftSkill):
 
             # get the wikipedia article for the chosen day
             # wiki.page will accept a range of day formats including "August 5", "August 5th", and "5th of August"
-            results = wiki.page("May 12")
+            results = wiki.page(day_query)
 
             # prune away irrelevant content so we are just looking at events
             events = re.search(r'(?<=Events ==\n).*?(?=\n\n\n==)', results.content, re.DOTALL).group()
