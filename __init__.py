@@ -11,11 +11,16 @@ class TodayInHistory(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
   
-    @intent_handler(IntentBuilder('TodayInHistoryIntent').require("TodayInHistoryKeyword"))
+    @intent_handler(IntentBuilder('TodayInHistoryIntent').require("TodayInHistoryKeyword").optionally("Day"))
     def handle_today_in_history_intent(self, message):
-        day_query = date.today().strftime("%B %d")
+        day_query = message.data.get("Day")
 
-        self._search(day_query)
+        if day_query:
+            self._search(day_query)
+        else:
+            self._search(date.today().strftime("%B %d"))
+
+        
 
     @intent_handler(IntentBuilder("TellMeMoreIntent").require("TellMeMoreKeyword").require("initial_response"))
     def handle_tell_me_more_intent(self, message):
@@ -30,15 +35,12 @@ class TodayInHistory(MycroftSkill):
             events_list = self.events_list
             day = self.day
             
-            # choose a random entry from the list
             selection_index = random.randrange(len(events_list))
             selected_event = events_list[selection_index]
 
-            # a little string concatenation for clarity. right now our selection only contains a year
             selected_event = day + ", " + selected_event
             self.speak(selected_event)
 
-            # remove spoken entries and save data for further inquiry
             events_list.pop(selection_index)
             self.events_list = events_list
 
@@ -64,7 +66,8 @@ class TodayInHistory(MycroftSkill):
             # these are often birth/death days and less relevant asides.
             events = re.sub(r'\([^)]*\)|/[^/]*/', '', events)
 
-            # parse results into a list
+            # parse results into a list. Entries are seperated by newline characters
+            # parse results into a list. Entries are seperated by newline characters
             events_list = re.split(r'\n', events)
 
             # choose a random entry from the list
