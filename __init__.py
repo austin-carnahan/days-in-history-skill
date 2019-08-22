@@ -30,17 +30,17 @@ class TodayInHistory(MycroftSkill):
             day = self.day
             
             # choose a random entry from the list
-                selection_index = random.randrange(len(events_list))
-                selected_event = events_list[selection_index]
+            selection_index = random.randrange(len(events_list))
+            selected_event = events_list[selection_index]
 
             # a little string concatenation for clarity. right now our selection only contains a year
-                selected_event = day + ", " + selected_event
-                self.speak(selected_event)
+            selected_event = day + ", " + selected_event
+            self.speak(selected_event)
 
             # remove spoken entries and save data for further inquiry
-                events_list.pop(selection_index)
-                self.events_list = events_list
-                self.day = day_query
+            events_list.pop(selection_index)
+            self.events_list = events_list
+            self.day = day_query
 
 
     def _search(self, day_query):
