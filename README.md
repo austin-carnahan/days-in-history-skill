@@ -2,7 +2,9 @@
 Informs you of historical tidbits about a given calendar day
 
 ## About
-Provides historical events for today or any other calendar day using information pulled from Wikipedia.
+Provides historical events for today or any other calendar day using information pulled from [Wikipedia](https://www.wikipedia.org).
+
+This Skill uses the [Wikimedia API](https://en.wikipedia.org/w/api.php).
 
 ## Examples
 * "What happened today in history?"
