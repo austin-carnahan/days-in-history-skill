@@ -18,8 +18,7 @@ class TodayInHistory(MycroftSkill):
         if day_query:
             self._search(day_query)
         else:
-            self._search("May 12")
-            #~ self._search(date.today().strftime("%B %d"))
+            self._search(date.today().strftime("%B %d"))
 
         
 
@@ -81,9 +80,9 @@ class TodayInHistory(MycroftSkill):
             # remove spoken entries and save data for further inquiry. Flag initial response as complete to enable 'Tell Me More'
             # this doesn't work with bool'True'.... wants a string 
             events_list.pop(selection_index)
-            #~ self.events_list = events_list
-            #~ self.day = day_query
-            #~ self.set_context("initial_response", "complete")
+            self.events_list = events_list
+            self.day = day_query
+            self.set_context("initial_response", "complete")
             
         except wiki.exceptions.PageError:
             self.speak_dialog("notfound")
