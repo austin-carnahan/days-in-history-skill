@@ -1,1 +1,1 @@
-(on|for) (?P<Day>.*)
+(for|on) (?P<Day>.*)
