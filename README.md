@@ -8,8 +8,9 @@ This Skill uses the [Wikimedia API](https://en.wikipedia.org/w/api.php).
 
 ## Examples
 * "What happened today in history?"
-* "Tell me about december 12 in history"
-* "What historical events happened on june 16?"
+* "Tell me about events in history on December 12th"
+* "What historical events happened on June 16th?"
+* "Tell me more about that..."
 
 ## Credits
 austin-carnahan
