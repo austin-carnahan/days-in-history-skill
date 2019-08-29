@@ -2,6 +2,7 @@ import re
 import wikipedia as wiki
 from datetime import date
 import random
+from mycroft-util import extract_datetime
 
 from mycroft import MycroftSkill, intent_file_handler, intent_handler
 from adapt.intent import IntentBuilder
@@ -12,9 +13,10 @@ class TodayInHistory(MycroftSkill):
         MycroftSkill.__init__(self)
 
     @intent_handler(IntentBuilder('TodayInHistoryIntent').
-                    require("TodayInHistoryKeyword").optionally("Day"))
+                    require("TodayInHistoryKeyword"))
     def handle_today_in_history_intent(self, message):
-        day_query = message.data.get("Day")
+        day_query = extract_datetime(message.data.
+                                     get("utterance"))[0].strftime("%B %d")
 
         if day_query:
             self._search(day_query)
