@@ -2,8 +2,7 @@
   "utterance": "What are some historical events on march 12th",
   "intent_type": "TodayInHistoryIntent",
   "intent": {
-    "TodayInHistoryKeyword": "historical events",
-    "Day": "march 12th"
+    "TodayInHistoryKeyword": "historical events"
   },
   "expected_dialog": "searching"
 }
