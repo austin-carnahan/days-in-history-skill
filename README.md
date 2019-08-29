@@ -10,7 +10,8 @@ This Skill uses the [Wikimedia API](https://en.wikipedia.org/w/api.php).
 * "What happened today in history?"
 * "Tell me about events in history on December 12th"
 * "What historical events happened on June 16th?"
-* "Tell me more about that..."
+* "Tell me more"
+* "What's another event?"
 
 ## Credits
 austin-carnahan
