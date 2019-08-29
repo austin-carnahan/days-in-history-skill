@@ -2,7 +2,7 @@ import re
 import wikipedia as wiki
 from datetime import date
 import random
-from mycroft-util import extract_datetime
+from mycroft.util import extract_datetime
 
 from mycroft import MycroftSkill, intent_file_handler, intent_handler
 from adapt.intent import IntentBuilder
