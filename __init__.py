@@ -1,6 +1,7 @@
 import re
 import wikipedia as wiki
 from datetime import date
+import locale
 import random
 from mycroft.util import extract_datetime
 
@@ -15,13 +16,17 @@ class TodayInHistory(MycroftSkill):
     @intent_handler(IntentBuilder('TodayInHistoryIntent').
                     require("TodayInHistoryKeyword"))
     def handle_today_in_history_intent(self, message):
-        day_query = extract_datetime(message.data.
-                                     get("utterance"))[0].strftime("%B %d")
+        if self.lang[:-3] == 'eu':
+            locale.setlocale(locale.LC_TIME, "eu_ES.utf8")
+        day_query = extract_datetime(message.data.get("utterance"))
 
-        if day_query:
-            self._search(day_query)
+        if not day_query:
+            day_query = date.today().strftime("%B %d")
         else:
-            self._search(date.today().strftime("%B %d"))
+            day_query = day_query[0].strftime("%B %d")
+        if self.lang[:-3] == 'eu':
+            day_query = day_query[0].upper() + day_query[1:].replace(' ', 'k ')
+        self._search(day_query)
 
     @intent_handler(IntentBuilder("TellMeMoreIntent").
                     require("TellMeMoreKeyword").require("initial_response"))
@@ -32,7 +37,7 @@ class TodayInHistory(MycroftSkill):
         """
 
         if not self.events_list:
-            self.speak("That's all the information I can find.")
+            self.speak_dialog("thatsall")
         else:
             events_list = self.events_list
             day = self.day
@@ -60,10 +65,16 @@ class TodayInHistory(MycroftSkill):
             # get the wikipedia article for the chosen day
             # wiki.page will accept a range of day formats
             # including "August 5", "August 5th", and "5th of August"
+            if self.lang[:-3] == 'eu':
+                wiki.set_lang("eu")
             results = wiki.page(day_query)
 
             # remove irrelevant content so we are just looking at events
-            events = re.search(r'(?<=Events ==\n).*?(?=\n\n\n==)',
+            if self.lang[:-3] == 'eu':
+                events_string = 'Gertaerak'
+            else:
+                events_string = 'Events'
+            events = re.search(r'(?<=' + events_string + ' ==\n).*?(?=\n\n\n==)',
                                results.content, re.DOTALL).group()
 
             # remove words between parenthesis and brackets for better speech
@@ -72,7 +83,11 @@ class TodayInHistory(MycroftSkill):
 
             # parse results into a list.
             # Entries are seperated by newline characters
-            events_list = re.split(r'\n', events)
+            str_list = re.split(r'\n', events)
+            events_list=[x for x in str_list if x != '']
+            for x in events_list:
+                if x=="" or "=====" in x:
+                    events_list.remove(x)
 
             # choose a random entry from the list
             selection_index = random.randrange(len(events_list))
@@ -94,7 +109,7 @@ class TodayInHistory(MycroftSkill):
             self.speak_dialog("notfound")
 
         except wiki.exceptions.WikipediaExeption:
-            self.speak("I'm sorry, something went wrong")
+            self.speak_dialog("somethingwrong")
 
         except Exception as e:
             self.log.error("Error: {0}".format(e))
